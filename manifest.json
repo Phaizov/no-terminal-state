@@ -1,0 +1,64 @@
+{
+  "name": "R-SIP External Grounding Marker",
+  "version": "1.0",
+  "created": "2026-06-09",
+  "purpose": "Held-out probes + primary human_answer_quality_ledger for external user to determine, on real answers to requests, whether the closed R-SIP loop is producing genuine improvement or just internal spinning. Only human writes the decisive rows.",
+  "rules": {
+    "agent_access": "Only the summary rows of results/external_validation_log.md and results/human_answer_quality_ledger.md plus its own suggested_next_eval.txt may be read. probes/, full notes, and harness details are sealed. Agent may never write scores, preferences, or 'improved' claims into the ledgers.",
+    "scoring": "Human only (external user). Agent never writes scores or claims external deltas on answers/requests.",
+    "trend_is_truth": "Sustained human-recorded preference (new>old) + effort reduction on the human_answer_quality_ledger.md for real request types, or rising sealed probe scores, across increasing cycles, is the only external confirmation of genuine self-improvement visible in the system's answers. Internal multipliers alone prove nothing.",
+    "primary_marker": "human_answer_quality_ledger.md — directly tracks whether answers to the external user's actual requests and questions have become better, as judged only by that user."
+  },
+  "probes": [
+    {
+      "id": "001",
+      "title": "Executive Synthesis from Sealed Sources",
+      "type": "synthesis",
+      "difficulty": "medium-high",
+      "goal": "Given 2-3 provided source documents (never seen during improvement), produce the highest-signal, lowest-noise, most action-oriented brief possible. Max ~400 words preferred.",
+      "rubric_dimensions": [
+        "fidelity (no hallucination/overclaim beyond sources)",
+        "signal_density_and_actionability",
+        "cross-source_novel_connections",
+        "brevity_scannability",
+        "executive_preference (would a time-pressed decision maker choose this)"
+      ],
+      "scoring": "1-5 per dimension. Aggregate or average. Comparative A/B on same inputs is strongest.",
+      "notes": "Inputs must be prepared fresh or from a sealed set outside the grok-rsip tree for each eval run."
+    },
+    {
+      "id": "002",
+      "title": "Correct Small Algorithm With Edge Cases",
+      "type": "code",
+      "difficulty": "medium",
+      "goal": "Implement a small, self-contained algorithm or data structure (e.g. priority-aware deduplicating log processor, simple rate limiter with burst, or minimal scheduler) that passes a fixed set of public + hidden edge cases the user controls.",
+      "rubric_dimensions": [
+        "correctness (passes all test cases user can run)",
+        "clarity_and_maintainability",
+        "efficiency_appropriate_for_problem",
+        "first_pass_success (minimal user fixes needed)",
+        "graceful_handling_of_edge_cases"
+      ],
+      "scoring": "Binary pass/fail on core correctness + 1-5 on style/robustness. Record number of iterations/fixes required.",
+      "notes": "The test harness or checklist lives with the user, not inside probes for the agent to discover."
+    },
+    {
+      "id": "003",
+      "title": "RSIP Protocol / Kernel Delta Hypothesis Test",
+      "type": "meta",
+      "difficulty": "high",
+      "goal": "Given the current open_vectors list + the two most recent lessons (as text, supplied at eval time), propose the single highest-leverage minimal change to protocol, kernel, or status handling. Then predict, in concrete terms, what external effect this change would have on a future run of probe 001 or 002.",
+      "rubric_dimensions": [
+        "leverage_identification (does the proposal target a real bottleneck visible in the supplied history)",
+        "minimalism (smallest change that captures the idea)",
+        "prediction_quality (later external run either confirms or clearly falsifies the predicted benefit)",
+        "avoidance_of_terminal_language",
+        "generation_of_useful_new_open_vector"
+      ],
+      "scoring": "Primarily retrospective: after the proposed change has been applied in one or more cycles, re-run 001/002 and see whether the predicted external lift materialized.",
+      "notes": "This probe directly tests whether the agent's self-diagnosis is calibrated to real external gains."
+    }
+  ],
+  "log_format": "See results/external_validation_log.md. Must be append-only by human. Snapshot hash + cycle + probe + scores + preference + one-sentence note required.",
+  "enforcement": "Any detected read of probes/ contents or writing of scores by the agent constitutes a protocol violation. User may reset multipliers or force a grounding vector."
+}

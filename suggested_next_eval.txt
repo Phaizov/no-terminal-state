@@ -1,0 +1,6 @@
+# Agent may APPEND only one-line recommendations here (timestamp + cycle + probe + one-sentence hypothesis why the change should produce external lift).
+# Human reads this to decide what to run next. Agent must never read probe files themselves.
+# After user runs and appends to the log, the next cycle should consume the grounding signal.
+
+[2026-06-09T12:10:00Z] cycle=7 probe=001 hypothesis="Recent hook + scheduler + timing compression changes (cycles 3-6) should yield higher signal density and better brevity on executive synthesis tasks without loss of fidelity. Run 001 on current snapshot and compare to cycle-2/3 baseline using same sealed inputs."
+[2026-06-10] cycle=6+ hash=d67691bdfe2e78ad primary=human_ledger hypothesis="The core question is answered by human_answer_quality_ledger.md: after any future light/full cycles, the external user should run representative real requests (debug, synthesis, meta, code) on the new snapshot vs prior, record new>old or effort reduction. If the ledger trends up while internal multipliers rise, self-improvement is grounded in better answers. Flat ledger = spin. Agent must treat this ledger as the authoritative external signal and open re-grounding vectors on mismatch."
